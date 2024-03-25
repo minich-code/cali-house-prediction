@@ -96,7 +96,7 @@ class DataTransformation:
 
             # Define the target column name
             target_col = "Median House Value"
-            num_columns = ['Longitude', 'Latitude', 'Housing Median Age', 'Total Rooms', 'Total Bedrooms', 
+            numerical_columns = ['Longitude', 'Latitude', 'Housing Median Age', 'Total Rooms', 'Total Bedrooms', 
                            'Population', 'Households', 'Median Income']
             
             # Drop the target column from the input features in both training and testing sets 

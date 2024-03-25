@@ -3,8 +3,10 @@ import sys
 import joblib
 #import dill 
 #import pickle 
+from sklearn.metrics import r2_score
 
 from src.exception import FileOperationError
+from src.log_config import logging 
 
 # Define a function to save an object in a file 
 def save_object(file_path, obj):
@@ -23,3 +25,33 @@ def save_object(file_path, obj):
     # Handle exception 
     except Exception as e:
         raise FileOperationError(e, sys)
+    
+
+def evaluate_models(X_train, y_train, X_test, y_test, best_model):
+    try:
+        # Log message for evaluation 
+        logging.info("Evaluating the best model")
+
+        # Fit the best model to training data
+        best_model.fit(X_train, y_train)
+
+        # Predict the target variable for training and testing data 
+        y_train_pred = best_model.predict(X_train)
+        y_test_pred = best_model.predict(X_test)
+
+        # Calculate the R-squared score for training and testing data 
+        r2_train = r2_score(y_train, y_train_pred)
+        r2_test = r2_score(y_test, y_test_pred)
+
+        # Create a report containing the R-squared scores
+        report = f"R-squared score for training data: {r2_train}\n R-squared score for testing data: {r2_test}"
+        logging.info(report)
+
+        # Return the R-squared scores 
+        return report
+    
+    # Handle exception
+    except Exception as e:
+        raise FileOperationError(e, sys) 
+    
+

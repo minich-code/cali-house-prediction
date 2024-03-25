@@ -12,6 +12,10 @@ from src.log_config  import logging
 from src.components.data_transformation import DataTransformationConfig
 from src.components.data_transformation import DataTransformation
 
+# Import after model trainer 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 
 # Define a dataclass that will hold data ingestion configuration 
 # This is a container for holding configuration data such as training, testing and raw data 
@@ -41,7 +45,7 @@ class DataIngestion:
         logging.info("Starting data ingestion process")
         try:
             # Read the raw data
-            df = pd.read_csv(r"E:\MLproject\calihousepred\notebook\California Housing.csv")
+            df = pd.read_csv(r"E:\MLproject\calihousepred\notebook\data\California Housing Prediction.csv")
             # Log message to indicate successful reading of dataframe 
             logging.info("Successfully read the raw data")
 
@@ -83,13 +87,29 @@ class DataIngestion:
 
 #We have combined data transformation and data ingestion
 #when the script is run directly, it performs data ingestion and transformation operations 
+# if __name__=="__main__":
+#     config = DataIngestionConfig()
+#     obj = DataIngestion(config) # creates an instance of the DataIngestion class, which is responsible for data ingestion operations.
+#     train_data, test_data =  obj.initiate_data_ingestion() # This line calls the initiate_data_ingestion() method of the DataIngestion.
+
+#     data_transformation = DataTransformation() # Creates an instance of the DataTransformation class, responsible for data transformation operations.
+#     data_transformation.initiate_data_transformation(train_data, test_data) # This method initiates the data transformation process
+        
+
+# After model trainer 
 if __name__=="__main__":
     config = DataIngestionConfig()
-    obj = DataIngestion(config) # creates an instance of the DataIngestion class, which is responsible for data ingestion operations.
-    train_data, test_data =  obj.initiate_data_ingestion() # This line calls the initiate_data_ingestion() method of the DataIngestion.
+    obj = DataIngestion(config) 
+    train_data, test_data =  obj.initiate_data_ingestion() 
 
-    data_transformation = DataTransformation() # Creates an instance of the DataTransformation class, responsible for data transformation operations.
-    data_transformation.initiate_data_transformation(train_data, test_data) # This method initiates the data transformation process
+    data_transformation = DataTransformation() 
+    training_array, testing_array, _ = data_transformation.initiate_data_transformation(train_data, test_data) 
+
+    config = ModelTrainerConfig()
+    model_trainer = ModelTrainer(config)
+    print(model_trainer.initiate_model_trainer(training_array, testing_array))
+
+
         
         
 
