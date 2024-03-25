@@ -5,4 +5,6 @@ scikit-learn
 xgboost
 flask
 joblib
+matplotlib
+optuna
 #-e .
