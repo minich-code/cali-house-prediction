@@ -55,3 +55,15 @@ def evaluate_models(X_train, y_train, X_test, y_test, best_model):
         raise FileOperationError(e, sys) 
     
 
+def load_object(file_path):
+    try:
+        # Open the file in a binary read mode and load the object using joblib 
+        # Load the object from file using joblib's load function 
+        with open(file_path, 'rb') as file_obj:
+            return joblib.load(file_path)
+        
+    # Handle exception
+    except Exception as e:
+        raise FileOperationError(e, sys)
+    
+
